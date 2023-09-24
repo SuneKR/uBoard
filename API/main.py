@@ -5,6 +5,7 @@ from routers import router as pieceRouter
 
 app = FastAPI()
 
+
 @app.on_event("startup")
 async def statup_db_client():
     app.mongodb_client = AsyncIOMotorClient("mongodb://localhost:27017")
@@ -16,11 +17,8 @@ async def shutdown_db_client():
     
 app.include_router(pieceRouter, tags=["pieces"], prefix="/piece")
 
-@app.get("/status")
+@app.get("/", tags=["Root"])
 async def getStatus(): return { "status": "running"}
 
-"""
-@app.get("/first-endpoint")
-async def root(): return {"message": "Initial Test"}
-
-"""
+@app.get("/status")
+async def getStatus(): return { "status": "running"}
